@@ -1,0 +1,5 @@
+checkpoints
+srr/*
+data/old_*
+data/result_step/*
+.vscode
