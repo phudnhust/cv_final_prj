@@ -178,7 +178,7 @@ def plot_loss(list_lossGaze, name):
     plt.savefig(name)
 
 if __name__ == '__main__':
-    batch_size = 16
+    batch_size = 1
     num_workers = 8
     root_dir = 'data/portrait'
     save_dir = root_dir

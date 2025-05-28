@@ -360,6 +360,10 @@ def repair_by_mask(tgt_path = 'data/portrait/align/target', swap_path = 'data/po
                 #     ((img == '0208.png' and src == '0006') is False) and ((img == '0092.png' and src == '0005') is False) and \
                 #         ((img == '0021.png' and src == '0002') is False) and ((img == '0021.png' and src == '0006') is False):
                 #     continue
+                if img != f'{src}.png':
+                    # print('img not match src', img, src)
+                    continue
+            
                 swap_img = cv2.imread(os.path.join(swap_path, type, src, img))
                 im1 = cv2.cvtColor(swap_img, cv2.COLOR_BGR2RGB)
                 tgt_img = cv2.imread(os.path.join(tgt_path, img))
@@ -388,6 +392,9 @@ def paste(data_root = 'data/portrait/swap_res_repair', dst_dir = 'data/portrait/
         for src in tqdm(src_list, desc = type, leave = False):
             img_list = os.listdir(os.path.join(data_root, type, src))
             for img in tqdm(img_list, desc = src, leave = False):
+                if img != f'{src}.png':
+                    # print('img not match src', img, src)
+                    continue
                 tgt_img = Image.open(os.path.join(ori_tgt_path, img)).convert('RGB')
                 gen_img = tgt_img.copy()            
                 gen_img256 = Image.open(os.path.join(data_root, type, src, img)).convert('RGB') # 256x256
@@ -416,7 +423,7 @@ if __name__ == '__main__':
     os.system('python -m data_preprocessing.align.face_align_portrait')
     
     save_mask()
-    os.system('CUDA_VISIBLE_DEVICES=0 bash tests/face_swap.sh')
+    os.system('CUDA_VISIBLE_DEVICES=1 bash tests/face_swap.sh')
 
 
     repair_by_mask()
